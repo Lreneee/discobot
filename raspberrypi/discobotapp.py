@@ -19,6 +19,7 @@ music_data = []
 def fillMusicData(musicArray):
     global music_data
     music_data = musicArray
+    #websockets.send(musicArray)
     
 """
 # Prevent visualization.py from controlling led strip
