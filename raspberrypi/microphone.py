@@ -11,6 +11,7 @@ def start_stream(callback):
                     channels=1,
                     rate=config.MIC_RATE,
                     input=True,
+                    output_device_index=0,
                     frames_per_buffer=frames_per_buffer)
     overflows = 0
     prev_ovf_time = time.time()
