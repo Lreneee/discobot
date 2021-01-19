@@ -5,6 +5,7 @@ import json
 import os
 
 import dataqueue
+import discobotapp
 
 app = Flask(__name__)
 
@@ -18,19 +19,12 @@ def hello():
 def upload_file():
     if request.method == 'POST':
         data = request.get_json()
-        # print(data)
+        discobotapp.fillMusicData(data)
+    
         # Extract the label with the high rating
         detected = max(data, key=lambda key: data[key])
-        #print(detected)
         dataqueue.enterData(detected)
-        # Save entire dataset to .txt
-        """
-        with open("./Flask app/data.txt", 'w', encoding='utf-8') as f:
-            f.write(
-                str(data)
-            )
-            f.close()
-        """
+       
     return ""
 
 def startInterface():
