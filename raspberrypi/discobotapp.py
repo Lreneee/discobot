@@ -14,6 +14,12 @@ LED_BRIGHTNESS = 255
 LED_INVERT = False
 LED_CHANNEL = 0
 
+music_data = []
+
+def fillMusicData(musicArray):
+    global music_data
+    music_data = musicArray
+    
 """
 # Prevent visualization.py from controlling led strip
 dataqueue.AppControlOn
