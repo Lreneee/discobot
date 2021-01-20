@@ -34,21 +34,20 @@ def setMotorSteps():
     sleep(delay)
     GPIO.output(STEP, GPIO.LOW)
     GPIO.output(STEP2, GPIO.LOW)
-    sleep(delay)
+    
 def motorStartListening():
     global musicGenre, delay, STEP, STEP2, step_count
+    
     while(True):
         data = dataqueue.getMotorQueue()
         if data != "empty":
-            print("Motor prints: " + data)
             musicGenre = data
-        if musicGenre!= "background":
+            
+        if musicGenre != "background":
             setMotorSteps() 
         else: 
             GPIO.output(STEP, GPIO.LOW)
             GPIO.output(STEP2, GPIO.LOW)
+            
 if __name__ == '__main__':
-    motorTesting()    
-
     GPIO.cleanup()
-
