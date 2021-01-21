@@ -25,11 +25,11 @@ GPIO.setup(STEP2, GPIO.OUT)
 
 def goForward():
     GPIO.output(DIR, CCW)
-    GPIO.output(DIR2, CW)
+    GPIO.output(DIR2, CCW)
     
 def goBackward():
     GPIO.output(DIR, CW)
-    GPIO.output(DIR2, CCW)
+    GPIO.output(DIR2, CW)
 
 def setMotorSteps():
     global counter
