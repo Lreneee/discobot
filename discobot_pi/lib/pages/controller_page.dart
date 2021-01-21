@@ -6,11 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart' as VectorMath;
 import 'package:web_socket_channel/io.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:discobot_pi/components/music_genre_text.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 String ip = "192.168.0.110";
 
 IOWebSocketChannel _channel;
 Function onMessage = (String message) {};
+Timer _timer;
 
 Color bgColor = Colors.black;
 Color fgColor = Colors.white;
@@ -61,9 +64,23 @@ class ControllerPage extends StatefulWidget {
 class _ControllerPageState extends State<ControllerPage> {
   TextEditingController ipController;
 
+  void startTimer() {
+    _timer = new Timer.periodic(Duration(seconds: 10), (timer) {
+      _send('d');
+    });
+  }
+
+  List<String> genres = [];
+  List<MusicGenreText> items = [];
+
   @override
   void initState() {
     super.initState();
+
+    _channel = IOWebSocketChannel.connect(
+      'ws://$ip:8765',
+      pingInterval: Duration(seconds: 1),
+    );
 
     Function loadIp = () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,9 +88,43 @@ class _ControllerPageState extends State<ControllerPage> {
       ipController = TextEditingController(text: ip);
 
       getChannel();
+      startTimer();
     };
 
     loadIp();
+    onMessage = (String message) {
+      String messagedata = message;
+      String splittedString = messagedata.substring(1, messagedata.length - 1);
+      genres = splittedString.split(',');
+      showMusicGenres();
+    };
+  }
+
+  List<MusicGenreText> showMusicGenres() {
+    items.clear();
+    setState(() {
+      for (String genre in genres) {
+        var percentages = new List();
+        percentages = genre.split(':');
+        String strippedString =
+            percentages[1].substring(2, percentages[1].length - 1);
+        double parsedString = double.parse(strippedString);
+        double percentage = parsedString * 100;
+        String percentageString = "${percentage.round()}%";
+        String musicStyle =
+            percentages[0].substring(2, percentages[0].length - 1);
+        if (parsedString > 0.05) {
+          print(genre);
+          var item = new MusicGenreText(
+            musicstyle: musicStyle,
+            percentage: percentageString,
+          );
+          items.add(item);
+          print(items);
+        }
+      }
+      return items;
+    });
   }
 
   @override
@@ -82,6 +133,7 @@ class _ControllerPageState extends State<ControllerPage> {
     ipController.dispose();
     onMessage = (String message) {};
     getChannel().sink.close();
+    _timer.cancel();
   }
 
   void _send(String message) {
@@ -99,44 +151,9 @@ class _ControllerPageState extends State<ControllerPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('60%', style: style),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Pop',
-                  style: style,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('30%', style: style),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Rock',
-                  style: style,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('10%', style: style),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'R&B',
-                  style: style,
-                ),
-              ],
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: items,
             ),
             SizedBox(
               height: 64,
