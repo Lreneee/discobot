@@ -39,11 +39,12 @@ def setMotorSteps():
     sleep(delay)
     GPIO.output(STEP, GPIO.LOW)
     GPIO.output(STEP2, GPIO.LOW)
+    sleep(delay)
     
     counter = counter + 1
-    if counter == 100:
+    if counter == 500:
         goBackward()
-    elif counter == 200:
+    elif counter == 800:
         goForward()
         counter = 0    
     
