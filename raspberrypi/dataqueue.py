@@ -1,6 +1,5 @@
 import queue
 
-global entryQueue
 global ledQueue
 global servoQueue
 global motorQueue
@@ -16,12 +15,10 @@ def AppControlOff():
     appInControl = False
 
 def setup():
-    global entryQueue
     global ledQueue
     global servoQueue
     global motorQueue
-
-    entryQueue = queue.Queue()
+    
     ledQueue = queue.Queue()
     servoQueue = queue.Queue()
     motorQueue = queue.Queue()
@@ -31,10 +28,15 @@ def enterData(data):
     global servoQueue
     global motorQueue
 
-    ledQueue.put(data)
-    servoQueue.put(data)
-    motorQueue.put(data)
-
+    if !appInControl:
+        ledQueue.put(data)
+        servoQueue.put(data)
+        motorQueue.put(data)
+    else:
+        ledQueue.put("background")
+        servoQueue.put("background")
+        motorQueue.put("background")
+    
 def getLedQueue():
     global ledQueue
     var = "empty"
@@ -42,9 +44,7 @@ def getLedQueue():
         var = ledQueue.get(block=False)
     except queue.Empty:
         return var
-    if appInControl:
-        return "led-off"
-
+    
     return var
 
 def getServoQueue():
@@ -66,19 +66,3 @@ def getMotorQueue():
         return var
 
     return var
-
-# def enterData(data):
-#     global entryQueue
-#     print("queue gets " + data)
-#     entryQueue.put(data)
-
-# def extractData():
-#     global entryQueue
-#     var = "empty"
-#     try:
-#         var = entryQueue.get(block=False)
-#     except queue.Empty:
-#         return var
-
-#     print("queue shares " + var)
-#     return var
