@@ -1,15 +1,14 @@
 import threading
 import queue
 import time 
-import os
-import dataqueue
-import mlinterface      # Flask server as interface Machine Learning model
-import discobotapp      # Web app communication API
 
 # Setup Queue
+import dataqueue
 dataqueue.setup()
 
 # Start threads
+import mlinterface
+import os
 threadMusicDetector = threading.Thread(target=mlinterface.startInterface)
 threadMusicDetector.start()
 os.system("sudo -upi chromium http://localhost:420&")
@@ -36,9 +35,7 @@ time.sleep(10)
 import servo1
 threadServo = threading.Thread(target=servo1.servoStartListening)
 threadServo.start()
-#time.sleep(10)
 
 #Thread for app discobot
-#threadApp = threading.Thread(target=discobotapp.startAppBackend)
-#threadApp.start()
+import discobotapp
 discobotapp.startAppBackend()
