@@ -4,10 +4,7 @@ import time
 import os
 import dataqueue
 import mlinterface      # Flask server as interface Machine Learning model
-import motor            # Bipolair motors
-#import servo1           # Servo motors
 import discobotapp      # Web app communication API
-import visualization    # Led strip
 
 # Setup Queue
 dataqueue.setup()
@@ -24,16 +21,22 @@ time.sleep(10)
 #         print("Main prints: " + data)
 
 # Thread for ledstrip
+import visualization
 threadLed = threading.Thread(target=visualization.startLed)
 threadLed.start()
+time.sleep(10)
 
+#Thread for motors
+import motor
 threadMotor = threading.Thread(target=motor.motorStartListening)
 threadMotor.start()
+time.sleep(10)
 
-time.sleep(2)
 #Thread for servo
-#threadServo = threading.Thread(target=servo1.servoStartListening)
-#threadServo.start()
+import servo1
+threadServo = threading.Thread(target=servo1.servoStartListening)
+threadServo.start()
+#time.sleep(10)
 
 #Thread for app discobot
 #threadApp = threading.Thread(target=discobotapp.startAppBackend)
