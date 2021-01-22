@@ -6,18 +6,13 @@ import time
 import dataqueue
 dataqueue.setup()
 
-# Start threads
+# Thread for Machine Learning
 import mlinterface
 import os
 threadMusicDetector = threading.Thread(target=mlinterface.startInterface)
 threadMusicDetector.start()
 os.system("sudo -upi chromium http://localhost:420&")
 time.sleep(10)
-
-# while(True):
-#     data = dataqueue.extractData()
-#     if (data != "empty"):
-#         print("Main prints: " + data)
 
 # Thread for ledstrip
 import visualization
