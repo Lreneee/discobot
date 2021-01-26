@@ -208,7 +208,7 @@ def microphone_update(audio_samples):
     
     valr= dataqueue.getLedQueue()
     if valr!="empty":
-        if valr == "background"":
+        if valr == "background":
             backgroundCounter = backgroundCounter + 1
             if backgroundCounter < 3:
                 isBackground = false
@@ -217,7 +217,7 @@ def microphone_update(audio_samples):
         else:
            backgroundCounter  = 0
         
-        if musicGenre != "background" or isBackground
+        if musicGenre != "background" or isBackground == False
             musicGenre=valr
             print("Music genre:"+ musicGenre)
             isBackground = true
