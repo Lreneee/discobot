@@ -29,7 +29,7 @@ def enterData(data):
     global motorQueue
     global appInControl
 
-    if !appInControl:
+    if appInControl == False
         ledQueue.put(data)
         servoQueue.put(data)
         motorQueue.put(data)
