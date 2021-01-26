@@ -11,8 +11,6 @@ import led
 import dataqueue
 
 musicGenre = "background"
-isBackground = True
-backgroundCounter = 0
 
 _time_prev = time.time() * 1000.0
 """The previous time that the frames_per_second() function was called"""
@@ -196,7 +194,7 @@ prev_fps_update = time.time()
 
 
 def microphone_update(audio_samples):
-    global y_roll, prev_rms, prev_exp, prev_fps_update, musicGenre, isBackground, backgroundCounter
+    global y_roll, prev_rms, prev_exp, prev_fps_update, musicGenre
     # Normalize samples between 0 and 1
     y = audio_samples / 2.0**15
     # Construct a rolling window of audio samples
@@ -207,20 +205,9 @@ def microphone_update(audio_samples):
     vol = np.max(np.abs(y_data))
     
     valr= dataqueue.getLedQueue()
-    if valr!="empty":
-        if valr == "background":
-            backgroundCounter = backgroundCounter + 1
-            if backgroundCounter < 3:
-                isBackground = False
-            elif backgroundCounter > 3:
-                backgroundCounter = 0
-        else:
-           backgroundCounter  = 0
-        
-        if musicGenre != "background" or isBackground == False:
-            musicGenre=valr
-            print("Music genre:"+ musicGenre)
-            isBackground = True
+    if valr != "empty":        
+        musicGenre = valr
+        print("Music genre: " + musicGenre)
         
     if vol < config.MIN_VOLUME_THRESHOLD:
         print('No audio input. Volume below threshold. Volume:', vol)
