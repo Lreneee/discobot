@@ -214,6 +214,8 @@ def microphone_update(audio_samples):
                 isBackground = false
             elif backgroundCounter > 3:
                 backgroundCounter = 0
+        else:
+           backgroundCounter  = 0
         
         if musicGenre != "background" or isBackground
             musicGenre=valr
