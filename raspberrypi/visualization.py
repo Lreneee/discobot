@@ -11,7 +11,7 @@ import led
 import dataqueue
 
 musicGenre = "background"
-isBackground = true
+isBackground = True
 backgroundCounter = 0
 
 _time_prev = time.time() * 1000.0
@@ -208,19 +208,19 @@ def microphone_update(audio_samples):
     
     valr= dataqueue.getLedQueue()
     if valr!="empty":
-        if valr == "background"":
+        if valr == "background":
             backgroundCounter = backgroundCounter + 1
             if backgroundCounter < 3:
-                isBackground = false
+                isBackground = False
             elif backgroundCounter > 3:
                 backgroundCounter = 0
         else:
            backgroundCounter  = 0
         
-        if musicGenre != "background" or isBackground
+        if musicGenre != "background" or isBackground == False:
             musicGenre=valr
             print("Music genre:"+ musicGenre)
-            isBackground = true
+            isBackground = True
         
     if vol < config.MIN_VOLUME_THRESHOLD:
         print('No audio input. Volume below threshold. Volume:', vol)

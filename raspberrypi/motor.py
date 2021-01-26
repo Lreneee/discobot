@@ -11,7 +11,7 @@ STEP2 = 4
 CW = 1     # Clockwise Rotation
 CCW = 0    # Counterclockwise Rotation
 SPR = 1000   # Steps per Revolution (360 / 7.5)
-delay = .01 """1-1s | .1-100ms | .01-10ms | .001-1ms"""
+delay = .01
 counter = 0
 
 musicGenre = "background"

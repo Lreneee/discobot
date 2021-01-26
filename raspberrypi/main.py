@@ -30,6 +30,7 @@ time.sleep(10)
 import servo1
 threadServo = threading.Thread(target=servo1.servoStartListening)
 threadServo.start()
+time.sleep(5)
 
 #Thread for app discobot
 import discobotapp
