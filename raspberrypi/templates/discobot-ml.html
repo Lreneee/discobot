@@ -11,7 +11,7 @@
     // https://github.com/tensorflow/tfjs-models/tree/master/speech-commands
 
     // the link to your model provided by Teachable Machine export panel
-    const URL = "https://teachablemachine.withgoogle.com/models/0YMiei10w/";
+    const URL = "https://teachablemachine.withgoogle.com/models/wWN9VaI03/";
 
     async function createModel() {
         const checkpointURL = URL + "model.json"; // model topology
@@ -68,14 +68,8 @@
                 url: "/upload",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    "bach": data[0].toFixed(2),                
-                    "background": data[1].toFixed(2),          
-                    "death metal": data[2].toFixed(2),          
-                    "electronic": data[3].toFixed(2),          
-                    "jazz": data[4].toFixed(2),      
-                    "pop": data[5].toFixed(2),   
-                    "r&b": data[6].toFixed(2),   
-                    "rock": data[7].toFixed(2),   
+                    "background": data[0].toFixed(2),                
+                    "music": data[1].toFixed(2),          
                 }),
                 dataType: "json",
                 success: function(response) {
