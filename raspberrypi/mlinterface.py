@@ -3,7 +3,7 @@ from flask import render_template
 from flask import request
 import json
 import os
-import discobotapp
+# import discobotapp
 
 import dataqueue
 
@@ -19,7 +19,7 @@ def hello():
 def upload_file():
     if request.method == 'POST':
         data = request.get_json()
-        discobotapp.fillMusicData(data)  
+        # discobotapp.fillMusicData(data)  
         # Extract the label with the high rating
         detected = max(data, key=lambda key: data[key])
         #print(detected)
@@ -37,6 +37,8 @@ def upload_file():
 def startInterface():
     app.run(host='localhost', debug=False, port=420)
     
-
+def terminate():
+    print("mlinterface terminate test")
+    
 if __name__ == '__main__':
     startInterface()

@@ -1,37 +1,14 @@
-import threading
-import queue
-import time 
+import threadmanager
+import time
 
 # Setup Queue
 import dataqueue
 dataqueue.setup()
 
-# Thread for Machine Learning
-import mlinterface
-import os
-threadMusicDetector = threading.Thread(target=mlinterface.startInterface)
-threadMusicDetector.start()
-os.system("sudo -upi chromium http://localhost:420&")
-time.sleep(10)
+threadmanager.startThreads()
 
-# Thread for ledstrip
-import visualization
-threadLed = threading.Thread(target=visualization.startLed)
-threadLed.start()
-time.sleep(10)
+threadmanager.getThreadStatus()
 
-#Thread for motors
-import motor
-threadMotor = threading.Thread(target=motor.motorStartListening)
-threadMotor.start()
-time.sleep(10)
+time.sleep(60)
 
-#Thread for servo
-import servo1
-threadServo = threading.Thread(target=servo1.servoStartListening)
-threadServo.start()
-#time.sleep(5)
-
-#Thread for app discobot
-import discobotapp
-discobotapp.startAppBackend()
+threadmanager.stopThreads()
